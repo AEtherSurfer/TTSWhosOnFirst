@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <button onclick="nextLine()">Start</button>
+  <button onclick="speechSynthesis.paused ? speechSynthesis.resume() : speechSynthesis.pause()">Pause</button>
+  <button onclick="speechSynthesis.cancel()">Stop</button>
+  <script>
+    var script = [
+      { name: "Abbott", text: "Strange as it may seem, they give ball players nowadays very peculiar names."},
+      { name: "Costello", text: "Funny names?"},
+      { name: "Abbott", text: "Nicknames, pet names. Now, on the St. Louis team we have Who's on first, What's on second, I Don't Know is on third--"},
+      { name: "Costello", text: "That's what I want to find out. I want you to tell me the names of the fellows on the St. Louis team."},
+      { name: "Abbott", text: "I'm telling you. Who's on first, What's on second, I Don't Know is on third--"},
+      { name: "Costello", text: "You know the fellows' names?"},
+      { name: "Abbott", text: "Yes."},
+      { name: "Costello", text: "Well, then who's playing first?"},
+      { name: "Abbott", text: "Yes."},
+      { name: "Costello", text: "I mean the fellow's name on first base."},
+      { name: "Abbott", text: "Who."},
+      { name: "Costello", text: "The fellow playin' first base."},
+      { name: "Abbott", text: "Who."},
+      { name: "Costello", text: "The guy on first base."},
+      { name: "Abbott", text: "Who is on first."},
+      { name: "Costello", text: "Well, what are you askin' me for?"},
+      { name: "Abbott", text: "I'm not asking you--I'm telling you. Who is on first."},
+      { name: "Costello", text: "I'm asking you--who's on first?"},
+      { name: "Abbott", text: "That's the man's name."},
+      { name: "Costello", text: "That's who's name?"},
+      { name: "Abbott", text: "Yes."},
+      { name: "", text: "~ ~ ~ ~ ~"},
+      { name: "Costello", text: "When you pay off the first baseman every month, who gets the money?"},
+      { name: "Abbott", text: "Every dollar of it. And why not, the man's entitled to it."},
+      { name: "Costello", text: "Who is?"},
+      { name: "Abbott", text: "Yes."},
+      { name: "Costello", text: "So who gets it?"},
+      { name: "Abbott", text: "Why shouldn't he? Sometimes his wife comes down and collects it."},
+      { name: "Costello", text: "Who's wife?"},
+      { name: "Abbott", text: "Yes. After all, the man earns it."},
+      { name: "Costello", text: "Who does?"},
+      { name: "Abbott", text: "Absolutely."},
+      { name: "Costello", text: "Well, all I'm trying to find out is what's the guy's name on first base?"},
+      { name: "Abbott", text: "Oh, no, no. What is on second base."},
+      { name: "Costello", text: "I'm not asking you who's on second."},
+      { name: "Abbott", text: "Who's on first!"},
+      { name: "", text: "~ ~ ~ ~ ~"},
+      { name: "Costello", text: "St. Louis has a good outfield?"},
+      { name: "Abbott", text: "Oh, absolutely."},
+      { name: "Costello", text: "The left fielder's name?"},
+      { name: "Abbott", text: "Why."},
+      { name: "Costello", text: "I don't know, I just thought I'd ask."},
+      { name: "Abbott", text: "Well, I just thought I'd tell you."},
+      { name: "Costello", text: "Then tell me who's playing left field?"},
+      { name: "Abbott", text: "Who's playing first."},
+      { name: "Costello", text: "Stay out of the infield! The left fielder's name?"},
+      { name: "Abbott", text: "Why."},
+      { name: "Costello", text: "Because."},
+      { name: "Abbott", text: "Oh, he's center field."},
+      { name: "Costello", text: "Wait a minute. You got a pitcher on this team?"},
+      { name: "Abbott", text: "Wouldn't this be a fine team without a pitcher?"},
+      { name: "Costello", text: "Tell me the pitcher's name."},
+      { name: "Abbott", text: "Tomorrow."},
+      { name: "", text: "~ ~ ~ ~ ~"},
+      { name: "Costello", text: "Now, when the guy at bat bunts the ball--me being a good catcher--I want to throw the guy out at first base, so I pick up the ball and throw it to who?"},
+      { name: "Abbott", text: "Now, that's he first thing you've said right."},
+      { name: "Costello", text: "I DON'T EVEN KNOW WHAT I'M TALKING ABOUT!"},
+      { name: "Abbott", text: "Don't get excited. Take it easy."},
+      { name: "Costello", text: "I throw the ball to first base, whoever it is grabs the ball, so the guy runs to second. Who picks up the ball and throws it to what. What throws it to I don't know. I don't know throws it back to tomorrow--a triple play."},
+      { name: "Abbott", text: "Yeah, it could be."},
+      { name: "Costello", text: "Another guy gets up and it's a long ball to center."},
+      { name: "Abbott", text: "Because."},
+      { name: "Costello", text: "Why? I don't know. And I don't care."},
+      { name: "Abbott", text: "What was that?"},
+      { name: "Costello", text: "I said, I DON'T CARE!"},
+      { name: "Abbott", text: "Oh, that's our shortstop!"}];
+    var currentLineIdx = -1;
+    var voices = speechSynthesis.getVoices();
+    var nextLine = function() {
+      voices = speechSynthesis.getVoices();
+      currentLineIdx ++;
+      if (currentLineIdx < script.length) {
+        abbott.voice = voices[2];
+        costello.voice = voices[1];
+        var line = script[currentLineIdx];
+        if (line.name == "Abbott") {
+          abbott.text = line.text;
+          speechSynthesis.speak(abbott);
+        }
+        else if (line.name == "Costello") {
+          costello.text = line.text;
+          speechSynthesis.speak(costello);
+        }
+        else { setTimeout(nextLine, 0);}
+      }
+    };
+    var abbott = new SpeechSynthesisUtterance();
+    var costello = new SpeechSynthesisUtterance();
+    abbott.addEventListener("end", nextLine);
+    costello.addEventListener("end", nextLine);
+  </script>
+</body>
+</html>
